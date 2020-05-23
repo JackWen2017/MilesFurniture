@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>哩程數家俱資訊站</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <div class="content">
+      <h1>哩程數家俱資訊站</h1>
+      <div id="app" v-cloak>
+        <div class="welcome" v-if="name===''">
+          <h2>你好!!請輸入你的暱稱!!</h2>
+          <h2>暱稱:<input type="text" v-model.trim="inputName" /></h2>
+          <input class="btnSend" type="button" value="確認" @click="sendName" />
+        </div>
+        <div v-else>
+          <div class="ctl">
+            <input
+              type="button"
+              class="btn"
+              value="修改資料"
+              @click="nowPage =1"
+              :class="{now:nowPage===1}"
+            />
+            <input
+              type="button"
+              class="btn"
+              value="顯示資料"
+              @click="nowPage =2"
+              :class="{now:nowPage===2}"
+            />
+          </div>
+          <div class="data" v-show="nowPage===1">
+            <h3>暱稱: {{name}}</h3>
+            <div class="choose">
+              <div
+                class="item"
+                v-for="mileNo of mileFList"
+                :key="mileNo"
+                @click="clickPic(mileNo)"
+                :class="{active:checkActive(mileNo)}"
+              >
+                <img :src="`./assets/pic/${mileNo}.png`" alt="" />
+              </div>
+            </div>
+            <input
+              class="btnSend"
+              type="button"
+              value="確認修改"
+              @click="saveChange"
+            />
+          </div>
+          <div class="info" v-show="nowPage===2">
+            <div class="filter">
+              <div class="filterItem">
+                <div class="filterTitle">
+                  <p>家俱</p>
+                </div>
+                <div class="filterGroup">
+                  <select v-model="selectMileFIndex">
+                    <option value="">全部</option>
+                    <option v-for="(name,id) of mileSelectList" :value="id"
+                      >{{name}}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="filterItem">
+                <div class="filterTitle">
+                  <p>種類</p>
+                </div>
+                <div class="filterGroup">
+                  <button
+                    class="btn select"
+                    value=""
+                    v-if="mileStyleAllShow"
+                    disabled
+                  >
+                    全部
+                  </button>
+                  <button
+                    class="btn"
+                    v-for="(name,key) of mileStyleSelectList"
+                    :value="name"
+                    @click="selectStyle(key)"
+                    :class="{select:checkStyle(key)}"
+                  >
+                    {{name}}
+                  </button>
+                </div>
+              </div>
+              <div class="filterItem">
+                <div class="filterTitle">
+                  <p>擁有者</p>
+                </div>
+                <div class="filterGroup">
+                  <select v-model="index.selectUser">
+                    <option value="">全部</option>
+                    <option v-for="userName of userList" :value="userName"
+                      >{{userName}}</option
+                    >
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div
+              class="showData"
+              v-for="filterMileNo of filterUserList"
+              :key="filterMileNo"
+            >
+              <div class="showPic">
+                <img :src="`./assets/pic/${filterMileNo}.png`" alt="" />
+              </div>
+              <div class="showInfo">
+                <p>
+                  物品 : {{mileName(filterMileNo)}}
+                  ({{mileStyleName(filterMileNo)}})
+                </p>
+                <p>
+                  擁有者 : {{hasUser(filterMileNo)}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src="./assets/main.js"></script>
+  </body>
+</html>
