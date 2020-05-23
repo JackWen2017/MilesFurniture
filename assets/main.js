@@ -136,7 +136,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
     },
     methods: {
       async changeNowPage(index) {
-        if (index === 2) await init()
+        if (index === '2') await init()
         this.nowPage = index
       },
       updateData(inputName, activeValue) {
