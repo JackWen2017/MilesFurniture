@@ -22,14 +22,14 @@
               type="button"
               class="btn"
               value="修改資料"
-              @click="nowPage =1"
+              @click="changeNowPage(1)"
               :class="{now:nowPage===1}"
             />
             <input
               type="button"
               class="btn"
               value="顯示資料"
-              @click="nowPage =2"
+              @click="changeNowPage(2)"
               :class="{now:nowPage===2}"
             />
           </div>

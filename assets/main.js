@@ -2,16 +2,25 @@
 let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
 
 ;(async function() {
-  let milesData = await axios
-    .get(`${jsonUrl}/MilesDatas`)
-    .then(result => result.data || [])
-    .catch(_ => [])
+  let milesData = []
+  let userValues = {}
 
-  let userValues = milesData.reduce((preObj, current) => {
-    let { name, saveData } = current
-    preObj[name] = saveData
-    return preObj
-  }, {})
+  let changeUserValues = function() {
+    userValues = milesData.reduce((preObj, current) => {
+      let { name, saveData } = current
+      preObj[name] = saveData
+      return preObj
+    }, {})
+  }
+  let init = async function() {
+    milesData = await axios
+      .get(`${jsonUrl}/MilesDatas`)
+      .then(result => result.data || [])
+      .catch(_ => [])
+    changeUserValues()
+  }
+
+  await init()
 
   let name = localStorage.getItem('name') || ''
   let actives = JSON.parse(localStorage.getItem('actives')) || []
@@ -126,6 +135,10 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       }
     },
     methods: {
+      async changeNowPage(index) {
+        if (index === 2) await init()
+        this.nowPage = index
+      },
       updateData(inputName, activeValue) {
         this.name = inputName
         let actives = activeValue || []
@@ -186,7 +199,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       async saveChange() {
         let chooseItems = this.actives
         if (chooseItems.length > 0) {
-          userValues[this.name] = chooseItems
+          // userValues[this.name] = chooseItems
           await this.changeData()
           console.log('OK')
         } else {
