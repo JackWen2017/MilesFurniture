@@ -3,21 +3,11 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
 
 ;(async function() {
   let milesData = []
-  let userValues = {}
-
-  let changeUserValues = function() {
-    userValues = milesData.reduce((preObj, current) => {
-      let { name, saveData } = current
-      preObj[name] = saveData
-      return preObj
-    }, {})
-  }
   let init = async function() {
     milesData = await axios
       .get(`${jsonUrl}/MilesDatas`)
       .then(result => result.data || [])
       .catch(_ => [])
-    changeUserValues()
   }
 
   await init()
@@ -50,6 +40,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       inputName: '',
       name,
       actives,
+      userValues: {},
       nowPage: 1,
       index: {
         selectMileF: '',
@@ -100,7 +91,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
         return styleLength === 0
       },
       userList() {
-        return Object.keys(userValues)
+        return Object.keys(this.userValues)
       },
 
       filterItem() {
@@ -128,15 +119,27 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
         let list = this.filterList
         let filterUser = this.index.selectUser
         if (filterUser) {
-          let userData = userValues[filterUser]
+          let userData = this.userValues[filterUser]
           list = list.filter(current => userData.indexOf(current) >= 0)
         }
         return list
       }
     },
     methods: {
+      changeUserValue() {
+        let userValuesInit = milesData.reduce((preObj, current) => {
+          let { name, saveData } = current
+          preObj[name] = saveData
+          return preObj
+        }, {})
+
+        this.userValues = userValuesInit
+      },
       async changeNowPage(index) {
-        if (index === '2') await init()
+        if (index === 2) {
+          await init()
+          this.changeUserValue()
+        }
         this.nowPage = index
       },
       updateData(inputName, activeValue) {
@@ -149,7 +152,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       sendName() {
         let inputName = this.inputName
         if (inputName) {
-          let activeValue = userValues[inputName]
+          let activeValue = this.userValues[inputName]
           let confirmStr = activeValue
             ? `暱稱${inputName}資料已存在，確定使用此暱稱讀取資料?`
             : `確認暱稱:${inputName}?`
@@ -199,9 +202,7 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       async saveChange() {
         let chooseItems = this.actives
         if (chooseItems.length > 0) {
-          // userValues[this.name] = chooseItems
           await this.changeData()
-          console.log('OK')
         } else {
           alert('請選擇家俱!!')
         }
@@ -210,7 +211,6 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
         return this.index.selectMileStyle.indexOf(styleValue) >= 0
       },
       selectStyle(styleValue) {
-        console.log(styleValue)
         let index = this.index.selectMileStyle.indexOf(styleValue)
         if (index >= 0) {
           this.index.selectMileStyle.splice(index, 1)
@@ -230,13 +230,16 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       },
       hasUser(mileNo) {
         let user = []
-        for (let [userName, valueArray] of Object.entries(userValues)) {
+        for (let [userName, valueArray] of Object.entries(this.userValues)) {
           if (valueArray.indexOf(mileNo) >= 0) {
             user.push(userName)
           }
         }
         return user.join('、') || '無'
       }
+    },
+    mounted() {
+      this.changeUserValue()
     }
   })
 })()
