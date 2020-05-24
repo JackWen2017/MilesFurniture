@@ -88,8 +88,8 @@
                 <div class="filterGroup">
                   <select v-model="selectMileFIndex">
                     <option value="">全部</option>
-                    <option v-for="(name,id) of mileSelectList" :value="id"
-                      >{{name}}</option
+                    <option v-for="(data,id) of mileSelectList" :value="id"
+                      >{{data.name}}</option
                     >
                   </select>
                 </div>
@@ -145,6 +145,7 @@
                   物品 : {{mileName(filterMileNo)}}
                   ({{mileStyleName(filterMileNo)}})
                 </p>
+                <p>點數 : {{milePoint(filterMileNo)}}</p>
                 <p>
                   擁有者 : {{hasUser(filterMileNo)}}
                 </p>

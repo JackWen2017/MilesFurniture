@@ -23,8 +23,8 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
   let mileF = data['mileF'] || []
 
   let mileSelectObj = mileF.reduce((preObj, nowItem) => {
-    let { id, name } = nowItem
-    preObj[id] = name
+    let { id, name, point } = nowItem
+    preObj[id] = { name, point }
     return preObj
   }, {})
 
@@ -238,12 +238,17 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       },
       mileName(mileNo) {
         let mileId = mileNo.substring(0, 1)
-        return mileSelectObj[mileId]
+        return mileSelectObj[mileId].name
       },
+
       mileStyleName(mileNo) {
         let mileId = mileNo.substring(0, 1)
         let styleNo = mileNo.substring(1)
         return mileStyleObj[mileId][styleNo]
+      },
+      milePoint(mileNo) {
+        let mileId = mileNo.substring(0, 1)
+        return mileSelectObj[mileId].point
       },
       hasUser(mileNo) {
         let user = []
