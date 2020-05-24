@@ -15,9 +15,22 @@
           <h2>你好!!請輸入你的暱稱!!</h2>
           <h2>暱稱:<input type="text" v-model.trim="inputName" /></h2>
           <input class="btnSend" type="button" value="確認" @click="sendName" />
+          <input
+            class="btnSend"
+            type="button"
+            value="取消"
+            v-if="showCancelReset"
+            @click="cancelRest"
+          />
         </div>
         <div v-else>
           <div class="ctl">
+            <input
+              type="button"
+              class="btn"
+              value="切換暱稱"
+              @click="resetData"
+            />
             <input
               type="button"
               class="btn"

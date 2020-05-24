@@ -49,6 +49,10 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       }
     },
     computed: {
+      showCancelReset() {
+        let name = localStorage.getItem('name') || ''
+        return name !== ''
+      },
       mileFList() {
         return mileF.reduce((preArray, nowItem) => {
           let id = nowItem.id
@@ -126,22 +130,6 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       }
     },
     methods: {
-      changeUserValue() {
-        let userValuesInit = milesData.reduce((preObj, current) => {
-          let { name, saveData } = current
-          preObj[name] = saveData
-          return preObj
-        }, {})
-
-        this.userValues = userValuesInit
-      },
-      async changeNowPage(index) {
-        if (index === 2) {
-          await init()
-          this.changeUserValue()
-        }
-        this.nowPage = index
-      },
       updateData(inputName, activeValue) {
         this.name = inputName
         let actives = activeValue || []
@@ -162,6 +150,35 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
         } else {
           alert('請輸入暱稱!!')
         }
+      },
+
+      cancelRest() {
+        let name = localStorage.getItem('name') || ''
+        if (name) {
+          this.name = name
+        } else {
+          alert('無暱稱資料無法取消!!')
+        }
+      },
+      resetData() {
+        this.inputName = this.name
+        this.name = ''
+      },
+      changeUserValue() {
+        let userValuesInit = milesData.reduce((preObj, current) => {
+          let { name, saveData } = current
+          preObj[name] = saveData
+          return preObj
+        }, {})
+
+        this.userValues = userValuesInit
+      },
+      async changeNowPage(index) {
+        if (index === 2) {
+          await init()
+          this.changeUserValue()
+        }
+        this.nowPage = index
       },
       checkActive(itemNo) {
         return this.actives.indexOf(itemNo) >= 0
