@@ -15,11 +15,22 @@ select {
 
 .content {
   width: 100%;
-  /* background-color: #bbb; */
   text-align: center;
 }
 h1 {
   padding-top: 10px;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+.welcome {
+  background-color: rgba(0, 0, 0, 0.815);
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
 }
 
 .welcome input {
@@ -27,6 +38,24 @@ h1 {
   height: 30px;
   padding-left: 5px;
 }
+.welcome .inputData {
+  width: 85%;
+}
+
+.inputForm {
+  background-color: rgb(249, 255, 164);
+  width: 50%;
+  height: 27%;
+  border: rgb(32, 9, 116) 2px solid;
+  border-radius: 15px;
+  margin: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .btnSend {
   width: 70px;
   background: linear-gradient(#0ac2ff, #0297c9);
@@ -62,6 +91,10 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.item {
+  border: rgb(249, 255, 164) 3px solid;
 }
 
 .item.active {
@@ -166,4 +199,17 @@ h1 {
 
 [v-cloak] {
   display: none;
+}
+
+@media screen and (min-width: 768px) {
+  h2 {
+    font-size: 1.5em;
+  }
+
+  .welcome .inputData {
+    width: 200px;
+  }
+  .inputForm {
+    height: 35%;
+  }
 }
