@@ -195,6 +195,7 @@ h2 {
 .showInfo p {
   text-align: left;
   word-wrap: break-word;
+  margin: 5px;
 }
 
 [v-cloak] {
