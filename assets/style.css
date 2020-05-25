@@ -113,7 +113,7 @@ h2 {
   display: flex;
   align-items: center;
   width: 100%;
-  height: 70px;
+  height: 120px;
 }
 
 .filterItem > .filterTitle {
@@ -202,11 +202,16 @@ h2 {
   display: none;
 }
 
+@media screen and (min-width: 450px) {
+  .filterItem {
+    height: 70px;
+  }
+}
+
 @media screen and (min-width: 768px) {
   h2 {
     font-size: 1.5em;
   }
-
   .welcome .inputData {
     width: 200px;
   }
