@@ -68,6 +68,7 @@
                 :key="mileNo"
                 @click="clickPic(mileNo)"
                 :class="{active:checkActive(mileNo)}"
+                v-show="showItem(mileNo)"
               >
                 <img :src="`./assets/pic/${mileNo}.png`" alt="" />
               </div>
