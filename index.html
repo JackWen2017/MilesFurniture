@@ -64,11 +64,10 @@
             <div class="choose">
               <div
                 class="item"
-                v-for="mileNo of mileFList"
+                v-for="mileNo of mileActiveFilterList"
                 :key="mileNo"
                 @click="clickPic(mileNo)"
                 :class="{active:checkActive(mileNo)}"
-                v-show="showItem(mileNo)"
               >
                 <img :src="`./assets/pic/${mileNo}.png`" alt="" />
               </div>

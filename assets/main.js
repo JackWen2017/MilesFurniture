@@ -67,6 +67,17 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       activeStyle() {
         return this.actives.map(active => active.substring(0, 1))
       },
+      mileActiveFilterList() {
+        let list = this.mileFList
+        return list.filter(itemNo => {
+          let show = true
+          if (!this.checkActive(itemNo)) {
+            let itemStyle = itemNo.substring(0, 1)
+            show = this.activeStyle.indexOf(itemStyle) < 0
+          }
+          return show
+        })
+      },
       mileSelectList() {
         return mileSelectObj
       },
@@ -185,14 +196,6 @@ let jsonUrl = 'https://5e2bd55d4fdc030014e211e2.mockapi.io'
       },
       checkActive(itemNo) {
         return this.actives.indexOf(itemNo) >= 0
-      },
-      showItem(itemNo) {
-        let show = true
-        if (!this.checkActive(itemNo)) {
-          let itemStyle = itemNo.substring(0, 1)
-          show = this.activeStyle.indexOf(itemStyle) < 0
-        }
-        return show
       },
       clickPic(itemNo) {
         let index = this.actives.indexOf(itemNo)
